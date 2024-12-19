@@ -1,20 +1,17 @@
 package main
 
 import (
-	"io"
 	"log"
 	"net/http"
+
+	"github.com/coolwind0202/deployable/components"
 )
 
 func main() {
-	// Hello world, the web server
-
-	helloHandler := func(w http.ResponseWriter, req *http.Request) {
-		io.WriteString(w, "Hello, world!\n")
-	}
-
-	http.HandleFunc("/hello", helloHandler)
+	http.HandleFunc("/hello", func(w http.ResponseWriter, req *http.Request) {
+		components.Hello("John").Render(req.Context(), w)
+	})
 
 	log.Println("Starting...")
-	log.Fatal(http.ListenAndServe(":8089", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
